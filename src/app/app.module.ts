@@ -5,7 +5,6 @@ import { MatButtonModule, MatCardModule, MatDialogModule, MatExpansionModule, Ma
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule, Routes } from '@angular/router';
-
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app.routing.module';
 import { CanActivateRouteGuard } from './can-activate-route.guard';
@@ -38,15 +37,15 @@ const appRoutes: Routes = [
     children: [
       {
         path : '',
-        redirectTo : 'view/noteview',
+        redirectTo : 'dashboard/view/noteview',
         pathMatch : 'full'
       },
       {
-        path : 'view/noteview',
+        path : 'dashboard/view/noteview',
         component : NoteViewComponent
       },
       {
-        path : 'view/listview',
+        path : 'dashboard/view/listview',
         component : ListViewComponent
       },
       {
