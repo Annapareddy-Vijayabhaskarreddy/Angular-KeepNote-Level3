@@ -20,7 +20,7 @@ export class NotesService {
 
   fetchNotesFromServer() {
     return this.http
-      .get<Array<Note>>('http://localhost:3000/api/v1/notes/', {
+      .get<Array<Note>>('http://localhost:3000/api/v1/notes', {
         headers: {
           Authorization: `Bearer ${this.authService.getBearerToken()}`,
         },
@@ -46,15 +46,16 @@ export class NotesService {
 
   addNote(note: Note): Observable<Note> {
     return this.http
-      .post<Note>('http://localhost:3000/api/v1/notes/', note, {
+      .post<Note>('http://localhost:3000/api/v1/notes', note, {
         headers: {
           Authorization: `Bearer ${this.authService.getBearerToken()}`,
         },
       })
-      .do((res) => {
-        this.notes.push(res);
-        this.notesSubject.next(this.notes);
-      });
+      // .do((res) => {
+      //   this.notes.push(res);
+      //   this.notesSubject.next(this.notes);
+      // }
+      // );
   }
 
   editNote(note: Note): Observable<Note> {
@@ -64,13 +65,13 @@ export class NotesService {
           Authorization: `Bearer ${this.authService.getBearerToken()}`,
         },
       })
-      .do((data) => {
-        // const note = this.notes.find((item) => item.id === data.id);
-        // Object.assign(note, data);
-        // this.notesSubject.next(this.notes);
-        this.notes.push(data);
-        this.notesSubject.next(this.notes);
-      });
+      // .do((data) => {
+      //   // const note = this.notes.find((item) => item.id === data.id);
+      //   // Object.assign(note, data);
+      //   // this.notesSubject.next(this.notes);
+      //   this.notes.push(data);
+      //   this.notesSubject.next(this.notes);
+      // });
   }
 
   getNoteById(noteId): Note {
