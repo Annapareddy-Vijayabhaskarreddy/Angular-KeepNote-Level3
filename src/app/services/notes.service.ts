@@ -1,53 +1,77 @@
 import { Injectable, OnInit } from '@angular/core';
 import { Note } from '../note';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { AuthenticationService } from './authentication.service';
 
 @Injectable()
-export class NotesService implements OnInit {
+export class NotesService {
+  constructor(
+    private http: HttpClient,
+    private authService: AuthenticationService
+  ) {
+    this.notes = [];
+    this.notesSubject = new BehaviorSubject([]);
+  }
+
   notes: Array<Note>;
   notesSubject: BehaviorSubject<Array<Note>>;
 
-  constructor(private http: HttpClient, private authService: AuthenticationService) {
-      this.notes = [];
-      this.notesSubject = new BehaviorSubject([]);
-    }
-    ngOnInit() {}
   fetchNotesFromServer() {
-    this.http.get<Array<Note>>('http://localhost:3000/api/v1/notes', {
-      headers : new HttpHeaders().set('Authorization', `Bearer ${this.authService.getBearerToken()}`)
-    }).subscribe(res => {
-        this.notes = res;
-        this.notesSubject.next(this.notes);
-    }, (err: any) => {
-      this.notesSubject.error(err);
-    });
+    return this.http
+      .get<Array<Note>>('http://localhost:3000/api/v1/notes', {
+        headers: {
+          Authorization: `Bearer ${this.authService.getBearerToken()}`,
+        },
+      })
+      .subscribe(
+        (data: any) => {
+          this.notes = data;
+          console.log(this.notes);
+
+          this.notesSubject.next(this.notes);
+        },
+        (error) => {
+          // this.notesSubject.error(error);
+        }
+      );
   }
+
   getNotes(): BehaviorSubject<Array<Note>> {
+    // console.log(this.notesSubject);
+
     return this.notesSubject;
   }
-addNote(note: Note): Observable<Note> {
-    return this.http.post<Note>('http://localhost:3000/api/v1/notes', note, {
-      headers : new HttpHeaders().set('Authorization', `Bearer ${this.authService.getBearerToken()}`)
- }).do(addedNote => {
-        this.notes.push(addedNote);
-        this.notesSubject.next(this.notes);
+
+  addNote(note: Note): Observable<Note> {
+    return this.http
+      .post<Note>('http://localhost:3000/api/v1/notes', note, {
+        headers: {
+          Authorization: `Bearer ${this.authService.getBearerToken()}`,
+        },
+      })
+      .do((res) => {
+        // this.notes.push(res);
+        // this.notesSubject.next(this.notes);
       });
   }
-editNote(note: Note): Observable<Note> {
-    return this.http.put<Note>(`http://localhost:3000/api/v1/notes/${note.id}`, note, {
-      headers : new HttpHeaders().set('Authorization', `Bearer ${this.authService.getBearerToken()}`)
-    }).do(editedNote => {
-       const foundNote = this.notes.find(enote  => enote.id === editedNote.id);
-       Object.assign(foundNote, editedNote);
-       this.notesSubject.next(this.notes);
-     });
+
+  editNote(note: Note): Observable<Note> {
+    return this.http
+      .put<Note>(`http://localhost:3000/api/v1/notes/${note.id}`, note, {
+        headers: {
+          Authorization: `Bearer ${this.authService.getBearerToken()}`,
+        },
+      })
+      .do((data) => {
+        // const note = this.notes.find((item) => item.id === data.id);
+        // Object.assign(note, data);
+        // this.notesSubject.next(this.notes);
+      });
   }
-getNoteById(noteId): Note {
-    // const c = parseInt(noteId);
-    return this.notes.find(note => note.id === Number(noteId));
+
+  getNoteById(noteId): Note {
+    return this.notes.find((note) => note.id === Number(noteId));
   }
 }
-

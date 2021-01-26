@@ -23,7 +23,12 @@ export class LoginComponent {
         this.service.setBearerToken(data.access_token);
         this.route.routeToDashboard();      
       },error=>{     
-         this.submitMessage=error.message='Unauthorized';
+        if (error.status === 403) {
+          this.submitMessage = 'Unauthorized';
+        } else {
+          this.submitMessage = error.message;
+        }
+
       });
     }
   

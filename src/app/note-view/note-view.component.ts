@@ -13,7 +13,7 @@ export class NoteViewComponent implements OnInit {
   constructor(private noteService: NotesService) { }
   ngOnInit() {
     this.noteService.getNotes().subscribe(
-      result => this.notes = result,
+      result => {this.notes = result},
       err => {
         this.errMessage = err.error.message;
       }

@@ -1,10 +1,10 @@
+import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatButtonModule, MatCardModule, MatDialogModule, MatExpansionModule, MatFormFieldModule, MatInputModule, MatSelectModule, MatToolbarModule } from '@angular/material';
+import { MatButtonModule, MatCardModule, MatDialogModule, MatExpansionModule, MatFormFieldModule, MatInputModule, MatNativeDateModule, MatSelectModule, MatToolbarModule } from '@angular/material';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { RouterModule, Routes } from '@angular/router';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app.routing.module';
 import { CanActivateRouteGuard } from './can-activate-route.guard';
@@ -20,42 +20,7 @@ import { NoteComponent } from './note/note.component';
 import { AuthenticationService } from './services/authentication.service';
 import { NotesService } from './services/notes.service';
 import { RouterService } from './services/router.service';
-const appRoutes: Routes = [
-  {
-    path: '',
-    redirectTo: 'dashboard',
-    pathMatch: 'full'
-  },
-  {
-    path: 'login',
-    component: LoginComponent
-  },
-  {
-    path: 'dashboard',
-    component: DashboardComponent,
-    canActivate: [CanActivateRouteGuard],
-    children: [
-      {
-        path : '',
-        redirectTo : 'dashboard/view/noteview',
-        pathMatch : 'full'
-      },
-      {
-        path : 'dashboard/view/noteview',
-        component : NoteViewComponent
-      },
-      {
-        path : 'dashboard/view/listview',
-        component : ListViewComponent
-      },
-      {
-        path : 'note/:noteId/edit',
-        component : EditNoteOpenerComponent,
-        outlet : 'noteEditOutlet'
-      }
-    ]
-  }
-];
+
 
 @NgModule({
   declarations: [
@@ -67,7 +32,7 @@ const appRoutes: Routes = [
     ListViewComponent,
     NoteTakerComponent,
     NoteViewComponent,
-    EditNoteOpenerComponent,
+    EditNoteViewComponent,
     EditNoteOpenerComponent
   ],
   imports: [
@@ -85,7 +50,8 @@ const appRoutes: Routes = [
     MatDialogModule,
     MatSelectModule,
     AppRoutingModule,
-    RouterModule.forRoot(appRoutes)
+    CommonModule,
+    MatNativeDateModule
   ],
   providers: [
     AuthenticationService,

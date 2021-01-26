@@ -21,7 +21,7 @@ export class EditNoteViewComponent implements OnInit, OnDestroy {
     }
 
   ngOnInit() {
-    this.note = this.noteService.getNoteById(this.data);
+    this.note = this.noteService.getNoteById(this.data.id);
   }
   ngOnDestroy() {
     this.routeService.routeBack();
@@ -30,6 +30,7 @@ export class EditNoteViewComponent implements OnInit, OnDestroy {
   onSave() {
     this.noteService.editNote(this.note).subscribe(editedNote => {
       this.dialogRef.close();
+      this.routeService.routeBack();
     }, error => {
       this.errMessage = error.message;
     });

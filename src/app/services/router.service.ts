@@ -7,15 +7,15 @@ export class RouterService {
   constructor(private router: Router, private location: Location) { }
 
   routeToDashboard() {
-    this.router.navigate(['dashboard']);
+    this.router.navigate(['/dashboard']);
   }
 
   routeToLogin() {
-    this.router.navigate(['login']);
+    this.router.navigate(['/login']);
   }
 
   routeToEditNoteView(noteId) {
-    this.router.navigate(['dashboard', {
+    this.router.navigate(['/dashboard', {
       outlets: {
         noteEditOutlet : ['note', noteId, 'edit']
       }
@@ -27,9 +27,9 @@ export class RouterService {
 
   }
   routeToNoteView() {
-    this.router.navigate(['dashboard/view/noteview']);
+    this.router.navigate(['/dashboard/view/noteview']);
   }
   routeToListView() {
-    this.router.navigate(['dashboard/view/listview']);
+    this.router.navigate(['/dashboard/view/listview']);
   }
 }

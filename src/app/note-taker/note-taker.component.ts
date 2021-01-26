@@ -7,7 +7,7 @@ import { NotesService } from '../services/notes.service';
   templateUrl: './note-taker.component.html',
   styleUrls: ['./note-taker.component.css']
 })
-export class NoteTakerComponent {
+export class NoteTakerComponent implements OnInit{
 
   constructor(private service:NotesService){}
 public notes:Array<Note>;

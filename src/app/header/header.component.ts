@@ -9,13 +9,14 @@ import { RouterService } from '../services/router.service';
 export class HeaderComponent {
   isNoteView = true;
   constructor(private routerService: RouterService) { }
-  switchToListView() {
-    this.isNoteView = false;
-    this.routerService.routeToListView();
-  }
-  switchToNoteView() {
-    this.isNoteView = true;
-    this.routerService.routeToNoteView();
+  handleView() {
+    this.isNoteView = !this.isNoteView;
+
+    if (this.isNoteView) {
+      this.routerService.routeToNoteView();
+    } else {
+      this.routerService.routeToListView();
+    }
   }
 
 }
