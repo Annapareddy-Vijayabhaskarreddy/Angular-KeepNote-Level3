@@ -2,13 +2,13 @@
 <form  >
    <div [formGroup]="loginForm">
     <div class="input-group mb-3">
-        <label for="email" class="sr-only">Email</label>
-        <input matInput  [formControl]="username"  class="username" autocomplete="off" placeholder="Email address">
+        <label for="username" class="sr-only">Email</label>
+        <input matInput  [formControl]="username"  class="username"  placeholder="Email address">
     </div>
 
     <div class="input-group mb-3">
         <label for="password" class="sr-only">Password</label>
-        <input matInput  [formControl]="password"  class="password" autocomplete="off" placeholder="password">
+        <input matInput  [formControl]="password"  class="password"  placeholder="password">
     </div>
  
        <button mat-button type="submit" (click)="loginSubmit()">Submit</button>
