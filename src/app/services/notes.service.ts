@@ -14,10 +14,8 @@ export class NotesService {
     this.notes = [];
     this.notesSubject = new BehaviorSubject([]);
   }
-
   notes: Array<Note>;
   notesSubject: BehaviorSubject<Array<Note>>;
-
   fetchNotesFromServer() {
     return this.http
       .get<Array<Note>>('http://localhost:3000/api/v1/notes', {
@@ -28,8 +26,6 @@ export class NotesService {
       .subscribe(
         (data: any) => {
           this.notes = data;
-          console.log(this.notes);
-
           this.notesSubject.next(this.notes);
         },
         (error) => {
@@ -37,13 +33,9 @@ export class NotesService {
         }
       );
   }
-
   getNotes(): BehaviorSubject<Array<Note>> {
-    // console.log(this.notesSubject);
-
     return this.notesSubject;
   }
-
   addNote(note: Note): Observable<Note> {
     return this.http
       .post<Note>('http://localhost:3000/api/v1/notes', note, {
@@ -52,12 +44,10 @@ export class NotesService {
         },
       })
       // .do((res) => {
-      //   this.notes.push(res);
-      //   this.notesSubject.next(this.notes);
-      // }
-      // );
+      //   // this.notes.push(res);
+      //   // this.notesSubject.next(this.notes);
+      // });
   }
-
   editNote(note: Note): Observable<Note> {
     return this.http
       .put<Note>(`http://localhost:3000/api/v1/notes/${note.id}`, note, {
@@ -69,11 +59,8 @@ export class NotesService {
       //   // const note = this.notes.find((item) => item.id === data.id);
       //   // Object.assign(note, data);
       //   // this.notesSubject.next(this.notes);
-      //   this.notes.push(data);
-      //   this.notesSubject.next(this.notes);
       // });
   }
-
   getNoteById(noteId): Note {
     return this.notes.find((note) => note.id === Number(noteId));
   }
