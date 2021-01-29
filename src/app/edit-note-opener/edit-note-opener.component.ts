@@ -10,18 +10,12 @@ import { NotesService } from '../services/notes.service';
   styleUrls: ['./edit-note-opener.component.css']
 })
 export class EditNoteOpenerComponent {
-  constructor(
-    private activatedRoute: ActivatedRoute,
-    private notesService: NotesService,
-    private dialog: MatDialog
-  ) {}
-
-  ngOnInit(): void {
+  constructor(private dialog: MatDialog,
+    private activatedRoute: ActivatedRoute) {
     const noteId = this.activatedRoute.snapshot.paramMap.get('noteId');
-
-    this.dialog.open(EditNoteViewComponent, {
-      data: { id: noteId },
-    });
-  }
+    const editDialog = this.dialog.open(EditNoteViewComponent, {
+    data :noteId
+});
+}
 }
 

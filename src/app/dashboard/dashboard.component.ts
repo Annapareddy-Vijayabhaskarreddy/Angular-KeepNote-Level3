@@ -6,10 +6,14 @@ import { NotesService } from '../services/notes.service';
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']
 })
-export class DashboardComponent {
+export class DashboardComponent{
+ 
+  constructor(private service:NotesService) {
+    this.getNotes();
+  }
 
-  constructor(private notesService: NotesService) {
-    this.notesService.fetchNotesFromServer();
+  getNotes() {
+    this.service.fetchNotesFromServer();
+  }
 
-}
 }

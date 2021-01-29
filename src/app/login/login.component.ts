@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { AuthenticationService } from '../services/authentication.service';
 import { RouterService } from '../services/router.service';
@@ -8,28 +8,34 @@ import { RouterService } from '../services/router.service';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent {
-  constructor(private service:AuthenticationService, private route:RouterService){}
+export class LoginComponent  implements OnInit {
   
-    username = new FormControl('');
-    password = new FormControl('');
-    public submitMessage :any
-    public loginForm = new FormGroup({
-  username:this.username,
-  password:this.password
-});
-    loginSubmit() {
-      this.service.authenticateUser(this.loginForm.value).subscribe((data:any)=>{
-        this.service.setBearerToken(data.access_token);
-        this.route.routeToDashboard();      
-      },error=>{     
-        if (error.status === 403) {
-          this.submitMessage = 'Unauthorized';
-        } else {
-          this.submitMessage = error.message;
-        }
-
-      });
+  submitMessage:string;
+  username = new FormControl();
+  password = new FormControl();
+  constructor (private services: AuthenticationService, private router:RouterService) {}  
+  
+  public loginForm = new FormGroup({
+    username : this.username,
+    password : this.password
+  }) 
+    ngOnInit(): void {
     }
-  
+    loginSubmit() {
+      this.services.authenticateUser(this.loginForm.value).subscribe((data:any) =>{
+        this.services.setBearerToken(data['token']);
+        this.router.routeToDashboard();
+      }, err => {
+        this.submitMessage = err.message;
+        if(err.status === 403) {
+          this.submitMessage = err.error.message;
+        } else{
+          this.submitMessage = err.message;
+        }
+      })
+    
+  }
+
+
+
 }

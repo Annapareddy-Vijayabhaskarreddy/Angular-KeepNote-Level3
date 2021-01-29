@@ -3,7 +3,6 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { Note } from '../note';
 import { NotesService } from '../services/notes.service';
 import { RouterService } from '../services/router.service';
-
 @Component({
   selector: 'app-edit-note-view',
   templateUrl: './edit-note-view.component.html',
@@ -16,21 +15,19 @@ export class EditNoteViewComponent implements OnInit, OnDestroy {
   constructor(private noteService: NotesService,
     private routeService: RouterService,
     private dialogRef: MatDialogRef<EditNoteViewComponent>,
-    @Inject(MAT_DIALOG_DATA) private data: any) {
-      this.note =  this.data;
-    }
+    @Inject(MAT_DIALOG_DATA) private data: any) { }
 
   ngOnInit() {
-    this.note = this.noteService.getNoteById(this.data.id);
+    this.note = this.noteService.getNoteById(this.data);
+
   }
   ngOnDestroy() {
     this.routeService.routeBack();
   }
 
   onSave() {
-    this.noteService.editNote(this.note).subscribe(editedNote => {
+    this.noteService.editNote(this.note).subscribe((editedNote) => {
       this.dialogRef.close();
-      this.routeService.routeBack();
     }, error => {
       this.errMessage = error.message;
     });
